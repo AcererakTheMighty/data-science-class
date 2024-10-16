@@ -4869,19 +4869,21 @@ import seaborn as sns
 url = &quot;https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv&quot;
 names_data = pd.read_csv(url)
 names_data.head()</code></pre>
-<pre><code>#Defining Data for Question 1
+<pre><code># Filter the data for my name
 name = &quot;Landon&quot;
-names_data = names_data[names_data[&quot;name&quot;] == name]
-names_data.head()</code></pre>
-<pre><code>#Plotting Data for Question 2
-plt.figure(figsize=(10, 6))
-sns.lineplot(data=names_data, x=&quot;year&quot;, y=&quot;Total&quot;, label=&quot;Total&quot;)
-plt.axvline(x=2003, color=&#39;red&#39;, linestyle = &#39;--&#39;)
-plt.title(f&quot;Usage of the name {name} over time&quot;)
-plt.xlabel(&quot;Year&quot;)
-plt.ylabel(&quot;Number of Occurrences&quot;)
+name_data = names_data[names_data[&#39;name&#39;] == name]
+
+# Plot the data
+plt.figure(figsize=(10,6))
+sns.lineplot(x=&#39;year&#39;, y=&#39;Total&#39;, data=name_data)
+plt.axvline(x=2003, color=&#39;red&#39;, linestyle=&#39;--&#39;)  
+plt.title(f&#39;Usage of the name &quot;{name}&quot; over time&#39;)
+plt.xlabel(&#39;Year&#39;)
+plt.ylabel(&#39;Number of occurrences&#39;)
 plt.xticks(rotation=45)
-plt.show()</code></pre>
+plt.show()
+
+#Regarding the question, it seems like my name is more of a modern name, with it being used relatively minimally before I was born, but the peak of my name being common didn&#39;t reach high until around 2007 as far as I can tell from the map</code></pre>
 <pre><code>#Starting Question 2
 brittany_data = names_data[names_data[&quot;name&quot;] == &quot;Brittany&quot;]
 
@@ -4892,7 +4894,8 @@ plt.title(&quot;Usage of the name Brittany over time&quot;)
 plt.xlabel(&quot;Year&quot;)
 plt.ylabel(&quot;Number of Occurrences&quot;)
 plt.xticks(rotation=45)
-plt.show()</code></pre>
+plt.show()
+#Regarding the question, I would presume that Brittany would have been born somewhere around 1990.</code></pre>
 <pre><code>#Question 3
 # Filter data for the names Mary, Martha, Peter, and Paul from 1920 to 2000
 names = [&#39;Mary&#39;, &#39;Martha&#39;, &#39;Peter&#39;, &#39;Paul&#39;]
@@ -4907,6 +4910,7 @@ plt.ylabel(&#39;Number of occurrences&#39;)
 plt.legend(title=&#39;Names&#39;)
 plt.xticks(rotation=45)
 plt.show()
+#Christian names seem to decline starting somewhere in the 60s until today where the data indicates it hasn&#39;t been used much.
 </code></pre>
 <pre><code># Filter data for a unique name from a movie
 movie_name = &quot;Trinity&quot; 
@@ -4920,7 +4924,8 @@ plt.title(f&#39;Usage of the name &quot;{movie_name}&quot; over time with movie 
 plt.xlabel(&#39;Year&#39;)
 plt.ylabel(&#39;Number of occurrences&#39;)
 plt.xticks(rotation=45)
-plt.show()</code></pre>
+plt.show()
+#It seems that yes, a lot of people watched The Matrix and decided to name their kid Trinity. Honestly, I can&#39;t even deny, Trinity isn&#39;t that bad of a name, it&#39;s just that when you name your kid after a character there&#39;s a chance it could end poorly. I mean, there are kids named after characters from Game of Thrones, and as we know, Game Of Thrones isn&#39;t even talked about anymore.</code></pre>
 
 
 
