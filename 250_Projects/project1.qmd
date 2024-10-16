@@ -1,7 +1,7 @@
 ---
-title: "Client Report - [Insert Project Title]"
+title: "Client Report - What's in a Name"
 subtitle: "Course DS 250"
-author: "[STUDENT NAME]"
+author: Landon Smith
 format:
   html:
     self-contained: true
@@ -25,4 +25,81 @@ execute:
     
 ---
 
-### Paste in a template
+````
+#Pasting this over from Google Colab
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+url = "https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv"
+names_data = pd.read_csv(url)
+names_data.head()
+````
+
+````
+#Defining Data for Question 1
+name = "Landon"
+names_data = names_data[names_data["name"] == name]
+names_data.head()
+````
+
+````
+#Plotting Data for Question 2
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=names_data, x="year", y="Total", label="Total")
+plt.axvline(x=2003, color='red', linestyle = '--')
+plt.title(f"Usage of the name {name} over time")
+plt.xlabel("Year")
+plt.ylabel("Number of Occurrences")
+plt.xticks(rotation=45)
+plt.show()
+````
+
+````
+#Starting Question 2
+brittany_data = names_data[names_data["name"] == "Brittany"]
+
+#Plot the data
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=brittany_data, x="year", y="Total", label="Total")
+plt.title("Usage of the name Brittany over time")
+plt.xlabel("Year")
+plt.ylabel("Number of Occurrences")
+plt.xticks(rotation=45)
+plt.show()
+````
+
+````
+#Question 3
+# Filter data for the names Mary, Martha, Peter, and Paul from 1920 to 2000
+names = ['Mary', 'Martha', 'Peter', 'Paul']
+filtered_data = names_data[(names_data['name'].isin(names)) & (names_data['year'] >= 1920) & (names_data['year'] <= 2000)]
+
+# Plot the data
+plt.figure(figsize=(12,8))
+sns.lineplot(x='year', y='Total', hue='name', data=filtered_data)
+plt.title('Usage of Christian names from 1920 to 2000')
+plt.xlabel('Year')
+plt.ylabel('Number of occurrences')
+plt.legend(title='Names')
+plt.xticks(rotation=45)
+plt.show()
+
+````
+
+````
+# Filter data for a unique name from a movie
+movie_name = "Trinity" 
+movie_name_data = names_data[names_data['name'] == movie_name]
+
+# Plot the data
+plt.figure(figsize=(10,6))
+sns.lineplot(x='year', y='Total', data=movie_name_data)
+plt.axvline(x=1999, color='blue', linestyle='--')  # Replace MovieReleaseYear with the movie's release year
+plt.title(f'Usage of the name "{movie_name}" over time with movie release')
+plt.xlabel('Year')
+plt.ylabel('Number of occurrences')
+plt.xticks(rotation=45)
+plt.show()
+````
