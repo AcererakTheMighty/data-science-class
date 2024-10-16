@@ -38,22 +38,21 @@ names_data.head()
 ````
 
 ````
-#Defining Data for Question 1
+# Filter the data for my name
 name = "Landon"
-names_data = names_data[names_data["name"] == name]
-names_data.head()
-````
+name_data = names_data[names_data['name'] == name]
 
-````
-#Plotting Data for Question 2
-plt.figure(figsize=(10, 6))
-sns.lineplot(data=names_data, x="year", y="Total", label="Total")
-plt.axvline(x=2003, color='red', linestyle = '--')
-plt.title(f"Usage of the name {name} over time")
-plt.xlabel("Year")
-plt.ylabel("Number of Occurrences")
+# Plot the data
+plt.figure(figsize=(10,6))
+sns.lineplot(x='year', y='Total', data=name_data)
+plt.axvline(x=2003, color='red', linestyle='--')  
+plt.title(f'Usage of the name "{name}" over time')
+plt.xlabel('Year')
+plt.ylabel('Number of occurrences')
 plt.xticks(rotation=45)
 plt.show()
+
+#Regarding the question, it seems like my name is more of a modern name, with it being used relatively minimally before I was born, but the peak of my name being common didn't reach high until around 2007 as far as I can tell from the map
 ````
 
 ````
@@ -68,6 +67,7 @@ plt.xlabel("Year")
 plt.ylabel("Number of Occurrences")
 plt.xticks(rotation=45)
 plt.show()
+#Regarding the question, I would presume that Brittany would have been born somewhere around 1990.
 ````
 
 ````
@@ -85,6 +85,7 @@ plt.ylabel('Number of occurrences')
 plt.legend(title='Names')
 plt.xticks(rotation=45)
 plt.show()
+#Christian names seem to decline starting somewhere in the 60s until today where the data indicates it hasn't been used much.
 
 ````
 
@@ -102,4 +103,5 @@ plt.xlabel('Year')
 plt.ylabel('Number of occurrences')
 plt.xticks(rotation=45)
 plt.show()
+#It seems that yes, a lot of people watched The Matrix and decided to name their kid Trinity. Honestly, I can't even deny, Trinity isn't that bad of a name, it's just that when you name your kid after a character there's a chance it could end poorly. I mean, there are kids named after characters from Game of Thrones, and as we know, Game Of Thrones isn't even talked about anymore.
 ````
