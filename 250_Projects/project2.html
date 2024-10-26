@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="[STUDENT NAME]">
+<meta name="author" content="Landon Smith">
 
-<title>Client Report - [Insert Project Title] – Chaz Clark - Data Science Portfolio</title>
+<title>Client Report - Late Flights and Missing Data – Chaz Clark - Data Science Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4765,7 +4765,7 @@ vertical-align: -.125em;
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-right">
-      <h1 class="title">Client Report - [Insert Project Title]</h1>
+      <h1 class="title">Client Report - Late Flights and Missing Data</h1>
             <p class="subtitle lead">Course DS 250</p>
                       </div>
   </div>
@@ -4776,7 +4776,7 @@ vertical-align: -.125em;
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>[STUDENT NAME] </p>
+               <p>Landon Smith </p>
             </div>
     </div>
       
@@ -4859,18 +4859,106 @@ vertical-align: -.125em;
 
 
 
-<nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#paste-in-a-template" id="toc-paste-in-a-template">Paste in a template</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
-<section id="paste-in-a-template" class="level3">
-<h3 class="anchored" data-anchor-id="paste-in-a-template">Paste in a template</h3>
+
+<pre><code>Q1: Fix all of the varied missing data types in the data to be consistent (all missing values should be displayed as “NaN”)</code></pre>
+<pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the dataset
+url = &#39;https://raw.githubusercontent.com/byuidatascience/data4missing/master/data-raw/flights_missing/flights_missing.json&#39;
+df = pd.read_json(url)
+
+# Step 1: Ensure missing data is consistent and represented as &quot;NaN&quot;
+df = df.replace([&quot;&quot;, &quot; &quot;, None], np.nan)  # Replacing empty or None with NaN
+
+# Display one row example in JSON format
+sample_row = df.iloc[0].to_json()
+print(&quot;Sample Row with NaN representation:\n&quot;, sample_row)
+
+#We removed all the missing data here. </code></pre>
+<p>Which airport has the worst delays? What is the best month to fly if you want to avoid delays of any length?</p>
+<pre><code># Step 2: Determine the airport with the worst delays
+# Total number of flights per airport
+total_flights = df.groupby(&#39;airport_code&#39;)[&#39;num_of_flights_total&#39;].sum()
+
+# Total number of delayed flights per airport
+delayed_flights = df.groupby(&#39;airport_code&#39;)[&#39;num_of_delays_total&#39;].sum()
+
+# Proportion of delayed flights per airport
+proportion_delayed = delayed_flights / total_flights
+
+# Average delay time in hours per airport
+avg_delay_hours = df.groupby(&#39;airport_code&#39;)[&#39;minutes_delayed_total&#39;].mean() / 60
+
+# Summary table
+summary_table = pd.DataFrame({
+    &#39;Total Flights&#39;: total_flights,
+    &#39;Total Delayed Flights&#39;: delayed_flights,
+    &#39;Proportion of Delayed Flights&#39;: proportion_delayed,
+    &#39;Average Delay (Hours)&#39;: avg_delay_hours
+}).fillna(0)  # Fill NaN with 0 for airports without delays
+
+print(&quot;\nWorst Airport Summary Table:\n&quot;, summary_table)
+
+# Airport with the worst delays based on highest proportion of delayed flights
+worst_airport = summary_table[&#39;Proportion of Delayed Flights&#39;].idxmax()
+print(f&quot;\nThe airport with the worst delays is {worst_airport}.&quot;)
+
+# Step 3: Find the best month to fly with minimal delays
+# Removing rows with missing &#39;month&#39; values
+df = df.dropna(subset=[&#39;month&#39;])
+
+# Group by month and calculate average delays
+monthly_delays = df.groupby(&#39;month&#39;)[&#39;minutes_delayed_total&#39;].mean()
+plt.figure(figsize=(10, 6))
+monthly_delays.plot(kind=&#39;bar&#39;)
+plt.title(&quot;Average Delay Time by Month&quot;)
+plt.xlabel(&quot;Month&quot;)
+plt.ylabel(&quot;Average Delay Time (minutes)&quot;)
+plt.show()
+
+# Best month to fly
+best_month = monthly_delays.idxmin()
+print(f&quot;\nThe best month to fly to avoid delays is {best_month}.&quot;)
+
+The answer we got was that November was the best time to fly without any delays</code></pre>
+<pre><code># Step 4: Create a new weather delay variable that includes mild weather delays
+# Fill NaN in &#39;num_of_delays_late_aircraft&#39; with its mean value
+df[&#39;num_of_delays_late_aircraft&#39;].fillna(df[&#39;num_of_delays_late_aircraft&#39;].mean(), inplace=True)
+
+# Calculate total weather-related delays
+df[&#39;total_weather_delays&#39;] = df[&#39;num_of_delays_weather&#39;] + \
+                             0.3 * df[&#39;num_of_delays_late_aircraft&#39;] + \
+                             np.where(df[&#39;month&#39;].isin([4, 5, 6, 7, 8]),
+                                      0.4 * df[&#39;num_of_delays_nas&#39;],
+                                      0.65 * df[&#39;num_of_delays_nas&#39;])
+
+# Display first 5 rows to verify calculations
+print(&quot;\nFirst 5 Rows with Total Weather Delays:\n&quot;, df[[&#39;airport_code&#39;, &#39;month&#39;, &#39;num_of_delays_weather&#39;,
+                                                         &#39;num_of_delays_late_aircraft&#39;, &#39;num_of_delays_nas&#39;,
+                                                         &#39;total_weather_delays&#39;]].head())</code></pre>
+<p>According to the BTS website, the “Weather” category only accounts for severe weather delays. Mild weather delays are not counted in the “Weather” category, but are actually included in both the “NAS” and “Late-Arriving Aircraft” categories. Your job is to create a new column that calculates the total number of flights delayed by weather (both severe and mild). You will need to replace all the missing values in the Late Aircraft variable with the mean. Show your work by printing the first 5 rows of data in a table. Use these three rules for your calculations:</p>
+<pre><code># Step 5: Plot proportion of flights delayed by weather per airport
+total_weather_delays_per_airport = df.groupby(&#39;airport_code&#39;)[&#39;total_weather_delays&#39;].sum()
+total_flights_per_airport = df.groupby(&#39;airport_code&#39;)[&#39;num_of_flights_total&#39;].sum()
+proportion_weather_delays = total_weather_delays_per_airport / total_flights_per_airport
+
+# Plotting
+plt.figure(figsize=(10, 6))
+proportion_weather_delays.plot(kind=&#39;bar&#39;, color=&#39;skyblue&#39;)
+plt.title(&quot;Proportion of Flights Delayed by Weather by Airport&quot;)
+plt.xlabel(&quot;Airport Code&quot;)
+plt.ylabel(&quot;Proportion of Weather Delays&quot;)
+plt.show()
+
+# Summary of findings from the weather delay analysis
+print(&quot;\nWeather Delay Proportion Summary:\n&quot;, proportion_weather_delays)
+
+#We found that the SFO is the worst in regards to delay</code></pre>
+<p>The analysis reveals that San Francisco International Airport (SFO) experiences the highest proportion of delayed flights, making it the airport with the most significant delay challenges. Additionally, for travelers aiming to avoid delays, November emerges as the optimal month to fly, with the lowest recorded delay metrics, enhancing the chances of on-time departures and arrivals.</p>
 
 
-</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -5496,7 +5584,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
