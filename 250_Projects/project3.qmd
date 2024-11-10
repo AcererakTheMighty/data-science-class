@@ -1,7 +1,7 @@
 ---
-title: "Client Report - [Insert Project Title]"
+title: "Client Report - Relations in Baseball"
 subtitle: "Course DS 250"
-author: "[STUDENT NAME]"
+author: "Landon Smith"
 format:
   html:
     self-contained: true
@@ -25,4 +25,5 @@ execute:
     
 ---
 
-### Paste in a template
+I'm going to cut out the middle-man here and just provide you the link to my Colab since you can't see the results here on the Repo.
+https://colab.research.google.com/drive/1Dx1kyPcPmlL-TfgGy7cR1gT8W6pZKn5j#scrollTo=XFjVZjTIshaQ
