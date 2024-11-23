@@ -4863,11 +4863,124 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#paste-in-a-template" id="toc-paste-in-a-template">Paste in a template</a></li>
+  <li><a href="#import-libraries" id="toc-import-libraries">Import libraries</a></li>
+  <li><a href="#load-dataset" id="toc-load-dataset">Load dataset</a></li>
+  <li><a href="#display-dataset-structure" id="toc-display-dataset-structure">Display dataset structure</a></li>
+  <li><a href="#select-numeric-columns" id="toc-select-numeric-columns">Select numeric columns</a></li>
+  <li><a href="#compute-the-correlation-matrix" id="toc-compute-the-correlation-matrix">Compute the correlation matrix</a></li>
+  <li><a href="#optional-filter-for-strong-correlations-e.g.-above-0.5-or-below--0.5" id="toc-optional-filter-for-strong-correlations-e.g.-above-0.5-or-below--0.5">Optional: Filter for strong correlations (e.g., above 0.5 or below -0.5)</a></li>
+  <li><a href="#plot-the-heatmap" id="toc-plot-the-heatmap">Plot the heatmap</a></li>
+  <li><a href="#rotate-the-x-and-y-labels-for-better-visualization" id="toc-rotate-the-x-and-y-labels-for-better-visualization">Rotate the x and y labels for better visualization</a></li>
+  <li><a href="#add-a-title" id="toc-add-a-title">Add a title</a></li>
+  <li><a href="#define-features-and-target-variable" id="toc-define-features-and-target-variable">Define features and target variable</a></li>
+  <li><a href="#split-into-training-and-testing-sets" id="toc-split-into-training-and-testing-sets">Split into training and testing sets</a></li>
+  <li><a href="#normalize-the-features" id="toc-normalize-the-features">Normalize the features</a></li>
+  <li><a href="#train-the-model" id="toc-train-the-model">Train the model</a></li>
+  <li><a href="#make-predictions" id="toc-make-predictions">Make predictions</a></li>
+  <li><a href="#evaluate-accuracy" id="toc-evaluate-accuracy">Evaluate accuracy</a></li>
+  <li><a href="#extract-feature-importances" id="toc-extract-feature-importances">Extract feature importances</a></li>
+  <li><a href="#create-a-dataframe-for-feature-importance" id="toc-create-a-dataframe-for-feature-importance">Create a DataFrame for feature importance</a></li>
+  <li><a href="#plot-feature-importances" id="toc-plot-feature-importances">Plot feature importances</a></li>
+  <li><a href="#generate-confusion-matrix" id="toc-generate-confusion-matrix">Generate confusion matrix</a></li>
+  <li><a href="#plot-confusion-matrix-as-heatmap" id="toc-plot-confusion-matrix-as-heatmap">Plot confusion matrix as heatmap</a></li>
+  <li><a href="#calculate-additional-metrics" id="toc-calculate-additional-metrics">Calculate additional metrics</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
-<section id="paste-in-a-template" class="level3">
-<h3 class="anchored" data-anchor-id="paste-in-a-template">Paste in a template</h3>
+<p>#I will be providing a video link so you can look at the results as well, here it is: https://www.loom.com/share/e4681775fafd4967bfb4998702b229c8?sid=833a5216-7828-464b-b407-46f71e3cde34</p>
+<section id="import-libraries" class="level1">
+<h1>Import libraries</h1>
+<p>import pandas as pd import seaborn as sns import matplotlib.pyplot as plt from sklearn.model_selection import train_test_split from sklearn.ensemble import RandomForestClassifier from sklearn.preprocessing import StandardScaler from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score, precision_score, recall_score</p>
+</section>
+<section id="load-dataset" class="level1">
+<h1>Load dataset</h1>
+<p>url = “https://raw.githubusercontent.com/byuidatascience/data4dwellings/master/data-raw/dwellings_ml/dwellings_ml.csv” df = pd.read_csv(url)</p>
+</section>
+<section id="display-dataset-structure" class="level1">
+<h1>Display dataset structure</h1>
+<p>print(df.head()) print(df.info())</p>
+<hr>
+<p>sns.histplot(data=df, x=‘livearea’, hue=‘before1980’, kde=True) plt.title(“Distribution of Living Area by Build Year”) plt.xlabel(“Living Area (sq ft)”) plt.ylabel(“Frequency”) plt.show()</p>
+<hr>
+<p>sns.boxplot(data=df, x=‘before1980’, y=‘sprice’) plt.title(“Sale Price by Build Year”) plt.xlabel(“Built Before 1980 (1=Yes)”) plt.ylabel(“Sale Price”) plt.show()</p>
+<hr>
+</section>
+<section id="select-numeric-columns" class="level1">
+<h1>Select numeric columns</h1>
+<p>numeric_cols = df.select_dtypes(include=[‘float64’, ‘int64’]).columns</p>
+</section>
+<section id="compute-the-correlation-matrix" class="level1">
+<h1>Compute the correlation matrix</h1>
+<p>corr = df[numeric_cols].corr()</p>
+</section>
+<section id="optional-filter-for-strong-correlations-e.g.-above-0.5-or-below--0.5" class="level1">
+<h1>Optional: Filter for strong correlations (e.g., above 0.5 or below -0.5)</h1>
+<p>strong_corr = corr[(corr &gt;= 0.5) | (corr &lt;= -0.5)].fillna(0)</p>
+</section>
+<section id="plot-the-heatmap" class="level1">
+<h1>Plot the heatmap</h1>
+<p>plt.figure(figsize=(12, 8)) # Increase figure size for readability sns.heatmap( strong_corr, annot=True, cmap=‘coolwarm’, fmt=“.2f”, linewidths=0.5, cbar_kws={‘shrink’: 0.8} # Adjust color bar size )</p>
+</section>
+<section id="rotate-the-x-and-y-labels-for-better-visualization" class="level1">
+<h1>Rotate the x and y labels for better visualization</h1>
+<p>plt.xticks(rotation=45, ha=‘right’, fontsize=10) plt.yticks(fontsize=10)</p>
+</section>
+<section id="add-a-title" class="level1">
+<h1>Add a title</h1>
+<p>plt.title(“Filtered Correlation Heatmap”, fontsize=14) plt.show()</p>
+<hr>
+</section>
+<section id="define-features-and-target-variable" class="level1">
+<h1>Define features and target variable</h1>
+<p>X = df[[‘livearea’, ‘finbsmnt’, ‘basement’, ‘yrbuilt’, ‘numbdrm’, ‘numbaths’, ‘nocars’]] y = df[‘before1980’]</p>
+</section>
+<section id="split-into-training-and-testing-sets" class="level1">
+<h1>Split into training and testing sets</h1>
+<p>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)</p>
+</section>
+<section id="normalize-the-features" class="level1">
+<h1>Normalize the features</h1>
+<p>scaler = StandardScaler() X_train_scaled = scaler.fit_transform(X_train) X_test_scaled = scaler.transform(X_test)</p>
+<hr>
+</section>
+<section id="train-the-model" class="level1">
+<h1>Train the model</h1>
+<p>model = RandomForestClassifier(random_state=42) model.fit(X_train_scaled, y_train)</p>
+</section>
+<section id="make-predictions" class="level1">
+<h1>Make predictions</h1>
+<p>y_pred = model.predict(X_test_scaled)</p>
+</section>
+<section id="evaluate-accuracy" class="level1">
+<h1>Evaluate accuracy</h1>
+<p>accuracy = accuracy_score(y_test, y_pred) print(f”Model Accuracy: {accuracy * 100:.2f}%“)</p>
+<hr>
+</section>
+<section id="extract-feature-importances" class="level1">
+<h1>Extract feature importances</h1>
+<p>importances = model.feature_importances_ feature_names = X.columns</p>
+</section>
+<section id="create-a-dataframe-for-feature-importance" class="level1">
+<h1>Create a DataFrame for feature importance</h1>
+<p>importance_df = pd.DataFrame({‘Feature’: feature_names, ‘Importance’: importances}).sort_values(by=‘Importance’, ascending=False)</p>
+</section>
+<section id="plot-feature-importances" class="level1">
+<h1>Plot feature importances</h1>
+<p>sns.barplot(data=importance_df, x=‘Importance’, y=‘Feature’, palette=‘viridis’) plt.title(“Feature Importance”) plt.xlabel(“Importance”) plt.ylabel(“Feature”) plt.show()</p>
+<hr>
+</section>
+<section id="generate-confusion-matrix" class="level1">
+<h1>Generate confusion matrix</h1>
+<p>cm = confusion_matrix(y_test, y_pred)</p>
+</section>
+<section id="plot-confusion-matrix-as-heatmap" class="level1">
+<h1>Plot confusion matrix as heatmap</h1>
+<p>sns.heatmap(cm, annot=True, fmt=‘d’, cmap=‘Blues’, xticklabels=[‘After 1980’, ‘Before 1980’], yticklabels=[‘After 1980’, ‘Before 1980’]) plt.title(“Confusion Matrix”) plt.xlabel(“Predicted”) plt.ylabel(“Actual”) plt.show()</p>
+<hr>
+</section>
+<section id="calculate-additional-metrics" class="level1">
+<h1>Calculate additional metrics</h1>
+<p>roc_auc = roc_auc_score(y_test, y_pred) precision = precision_score(y_test, y_pred) recall = recall_score(y_test, y_pred)</p>
+<p>print(f”ROC-AUC Score: {roc_auc:.2f}“) print(f”Precision: {precision:.2f}“) print(f”Recall: {recall:.2f}“)</p>
 
 
 </section>
