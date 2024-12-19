@@ -25,6 +25,17 @@ execute:
     
 ---
 
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+url = "https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv"
+names_data = pd.read_csv(url)
+names_data.head()
+```python
+
 ````
 #Pasting this over from Google Colab
 import pandas as pd
