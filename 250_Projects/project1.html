@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -4862,75 +4896,59 @@ vertical-align: -.125em;
 
 
 
-
-<pre><code>#Pasting this over from Google Colab
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-url = &quot;https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv&quot;
-names_data = pd.read_csv(url)
-names_data.head()</code></pre>
-<pre><code># Filter the data for my name
-name = &quot;Landon&quot;
-name_data = names_data[names_data[&#39;name&#39;] == name]
-
-# Plot the data
-plt.figure(figsize=(10,6))
-sns.lineplot(x=&#39;year&#39;, y=&#39;Total&#39;, data=name_data)
-plt.axvline(x=2003, color=&#39;red&#39;, linestyle=&#39;--&#39;)  
-plt.title(f&#39;Usage of the name &quot;{name}&quot; over time&#39;)
-plt.xlabel(&#39;Year&#39;)
-plt.ylabel(&#39;Number of occurrences&#39;)
-plt.xticks(rotation=45)
-plt.show()
-
-#Regarding the question, it seems like my name is more of a modern name, with it being used relatively minimally before I was born, but the peak of my name being common didn&#39;t reach high until around 2007 as far as I can tell from the map</code></pre>
-<pre><code>#Starting Question 2
-brittany_data = names_data[names_data[&quot;name&quot;] == &quot;Brittany&quot;]
-
-#Plot the data
-plt.figure(figsize=(10, 6))
-sns.lineplot(data=brittany_data, x=&quot;year&quot;, y=&quot;Total&quot;, label=&quot;Total&quot;)
-plt.title(&quot;Usage of the name Brittany over time&quot;)
-plt.xlabel(&quot;Year&quot;)
-plt.ylabel(&quot;Number of Occurrences&quot;)
-plt.xticks(rotation=45)
-plt.show()
-#Regarding the question, I would presume that Brittany would have been born somewhere around 1990.</code></pre>
-<pre><code>#Question 3
-# Filter data for the names Mary, Martha, Peter, and Paul from 1920 to 2000
-names = [&#39;Mary&#39;, &#39;Martha&#39;, &#39;Peter&#39;, &#39;Paul&#39;]
-filtered_data = names_data[(names_data[&#39;name&#39;].isin(names)) &amp; (names_data[&#39;year&#39;] &gt;= 1920) &amp; (names_data[&#39;year&#39;] &lt;= 2000)]
-
-# Plot the data
-plt.figure(figsize=(12,8))
-sns.lineplot(x=&#39;year&#39;, y=&#39;Total&#39;, hue=&#39;name&#39;, data=filtered_data)
-plt.title(&#39;Usage of Christian names from 1920 to 2000&#39;)
-plt.xlabel(&#39;Year&#39;)
-plt.ylabel(&#39;Number of occurrences&#39;)
-plt.legend(title=&#39;Names&#39;)
-plt.xticks(rotation=45)
-plt.show()
-#Christian names seem to decline starting somewhere in the 60s until today where the data indicates it hasn&#39;t been used much.
-</code></pre>
-<pre><code># Filter data for a unique name from a movie
-movie_name = &quot;Trinity&quot; 
-movie_name_data = names_data[names_data[&#39;name&#39;] == movie_name]
-
-# Plot the data
-plt.figure(figsize=(10,6))
-sns.lineplot(x=&#39;year&#39;, y=&#39;Total&#39;, data=movie_name_data)
-plt.axvline(x=1999, color=&#39;blue&#39;, linestyle=&#39;--&#39;)  # Replace MovieReleaseYear with the movie&#39;s release year
-plt.title(f&#39;Usage of the name &quot;{movie_name}&quot; over time with movie release&#39;)
-plt.xlabel(&#39;Year&#39;)
-plt.ylabel(&#39;Number of occurrences&#39;)
-plt.xticks(rotation=45)
-plt.show()
-#It seems that yes, a lot of people watched The Matrix and decided to name their kid Trinity. Honestly, I can&#39;t even deny, Trinity isn&#39;t that bad of a name, it&#39;s just that when you name your kid after a character there&#39;s a chance it could end poorly. I mean, there are kids named after characters from Game of Thrones, and as we know, Game Of Thrones isn&#39;t even talked about anymore.</code></pre>
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#filter-the-data-for-my-name" id="toc-filter-the-data-for-my-name">Filter the data for my name</a></li>
+  <li><a href="#plot-the-data" id="toc-plot-the-data">Plot the data</a></li>
+  <li><a href="#plot-the-data-1" id="toc-plot-the-data-1">Plot the data</a></li>
+  <li><a href="#filter-data-for-a-unique-name-from-a-movie" id="toc-filter-data-for-a-unique-name-from-a-movie">Filter data for a unique name from a movie</a></li>
+  <li><a href="#plot-the-data-2" id="toc-plot-the-data-2">Plot the data</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">&quot;https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>names_data <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>names_data.head()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>```python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>#Pasting this over from Google Colab import pandas as pd import numpy as np import matplotlib.pyplot as plt import seaborn as sns</p>
+<p>url = “https://github.com/byuidatascience/data4names/raw/master/data-raw/names_year/names_year.csv” names_data = pd.read_csv(url) names_data.head()</p>
+<pre><code></code></pre>
+<section id="filter-the-data-for-my-name" class="level1">
+<h1>Filter the data for my name</h1>
+<p>name = “Landon” name_data = names_data[names_data[‘name’] == name]</p>
+</section>
+<section id="plot-the-data" class="level1">
+<h1>Plot the data</h1>
+<p>plt.figure(figsize=(10,6)) sns.lineplot(x=‘year’, y=‘Total’, data=name_data) plt.axvline(x=2003, color=‘red’, linestyle=‘–’)<br>
+plt.title(f’Usage of the name “{name}” over time’) plt.xlabel(‘Year’) plt.ylabel(‘Number of occurrences’) plt.xticks(rotation=45) plt.show()</p>
+<p>#Regarding the question, it seems like my name is more of a modern name, with it being used relatively minimally before I was born, but the peak of my name being common didn’t reach high until around 2007 as far as I can tell from the map</p>
+<pre><code></code></pre>
+<p>#Starting Question 2 brittany_data = names_data[names_data[“name”] == “Brittany”]</p>
+<p>#Plot the data plt.figure(figsize=(10, 6)) sns.lineplot(data=brittany_data, x=“year”, y=“Total”, label=“Total”) plt.title(“Usage of the name Brittany over time”) plt.xlabel(“Year”) plt.ylabel(“Number of Occurrences”) plt.xticks(rotation=45) plt.show() #Regarding the question, I would presume that Brittany would have been born somewhere around 1990.</p>
+<pre><code></code></pre>
+<p>#Question 3 # Filter data for the names Mary, Martha, Peter, and Paul from 1920 to 2000 names = [‘Mary’, ‘Martha’, ‘Peter’, ‘Paul’] filtered_data = names_data[(names_data[‘name’].isin(names)) &amp; (names_data[‘year’] &gt;= 1920) &amp; (names_data[‘year’] &lt;= 2000)]</p>
+</section>
+<section id="plot-the-data-1" class="level1">
+<h1>Plot the data</h1>
+<p>plt.figure(figsize=(12,8)) sns.lineplot(x=‘year’, y=‘Total’, hue=‘name’, data=filtered_data) plt.title(‘Usage of Christian names from 1920 to 2000’) plt.xlabel(‘Year’) plt.ylabel(‘Number of occurrences’) plt.legend(title=‘Names’) plt.xticks(rotation=45) plt.show() #Christian names seem to decline starting somewhere in the 60s until today where the data indicates it hasn’t been used much.</p>
+<pre><code></code></pre>
+</section>
+<section id="filter-data-for-a-unique-name-from-a-movie" class="level1">
+<h1>Filter data for a unique name from a movie</h1>
+<p>movie_name = “Trinity” movie_name_data = names_data[names_data[‘name’] == movie_name]</p>
+</section>
+<section id="plot-the-data-2" class="level1">
+<h1>Plot the data</h1>
+<p>plt.figure(figsize=(10,6)) sns.lineplot(x=‘year’, y=‘Total’, data=movie_name_data) plt.axvline(x=1999, color=‘blue’, linestyle=‘–’) # Replace MovieReleaseYear with the movie’s release year plt.title(f’Usage of the name “{movie_name}” over time with movie release’) plt.xlabel(‘Year’) plt.ylabel(‘Number of occurrences’) plt.xticks(rotation=45) plt.show() #It seems that yes, a lot of people watched The Matrix and decided to name their kid Trinity. Honestly, I can’t even deny, Trinity isn’t that bad of a name, it’s just that when you name your kid after a character there’s a chance it could end poorly. I mean, there are kids named after characters from Game of Thrones, and as we know, Game Of Thrones isn’t even talked about anymore. ````</p>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -5553,7 +5571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
        
-    <div class="toc-actions"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/byuidatascience/course_work_portfolio/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
